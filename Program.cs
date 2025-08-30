@@ -39,11 +39,7 @@ int pBust = 75;
 Console.WriteLine("The bot will stick if the % chance to bust is greater than a certain value. enter that value (default 75)");
 temp = Console.ReadLine();
 
-if (Convert.ToInt16(temp) != 0)
-{
-    pBust = Convert.ToInt16(temp);
-}
-else
+if (!int.TryParse(temp, out pBust))
 {
     Console.WriteLine("Bad value. Please input an integer next time, defaulting to 75");
 }
