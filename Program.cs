@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System.Diagnostics;
 using System.Runtime.CompilerServices;
 
 static double getBust(ArrayList deck, int total)
@@ -44,10 +45,15 @@ if (!int.TryParse(temp, out pBust))
     Console.WriteLine("Bad value. Please input an integer next time, defaulting to 75");
 }
 
+if (pBust == 0)
+{
+    pBust = 75;
+}
 
-    //initialize hand
 
-    int[] hand = new int[4];
+//initialize hand
+
+int[] hand = new int[4];
 int aceTotal = 0;
 
 
