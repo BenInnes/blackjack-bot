@@ -33,11 +33,25 @@ for (int i = 0; i < 4; i++)
         deck.Add(rank);
     }
 }
+string temp = "";
+int pBust = 75;
 
-//initialize hand
+Console.WriteLine("The bot will stick if the % chance to bust is greater than a certain value. enter that value (default 75)");
+temp = Console.ReadLine();
 
-int[] hand = new int[4];
-int aceN = 0;
+if (Convert.ToInt16(temp) != 0)
+{
+    pBust = Convert.ToInt16(temp);
+}
+else
+{
+    Console.WriteLine("Bad value. Please input an integer next time, defaulting to 75");
+}
+
+
+    //initialize hand
+
+    int[] hand = new int[4];
 int aceTotal = 0;
 
 
@@ -55,16 +69,14 @@ Console.Clear();
 foreach (int card in hand) //update ace count and remove cards in hand from deck
 {
     deck.Remove(card);
-    if (card == 1)
+    if (aceTotal == 0 &&  card == 1)
     {
-        aceN++;
-        aceTotal += 10;
+        aceTotal = 10;
     }
 }
 
 int total = hand.Sum();
 bool game = true;
-string temp = "";
 
 aceTotal += total;
 
@@ -72,18 +84,57 @@ while (game)
 {
     Console.WriteLine("is it my turn (y/N)");
 
-    if (Console.ReadLine() == "y")
+    if (Console.ReadLine().ToLower() == "y")
     {
         Console.Clear();
 
-        if (total >= 20 | aceTotal >= 20) //thou shalt not hit on 20
+        if (total >= 20 | aceTotal >= 20 | hand.Count() == 5) //thou shalt not hit on 20
         {
             Console.WriteLine("stick");
             break;
         }
 
-        Console.WriteLine(getBust(deck, total) +"% chance of busting on hit");
+        Console.WriteLine(getBust(deck, total)*100 +"% chance of busting on hit");
 
+        while ((getBust(deck, total)*100) <= pBust)
+        {
+            Console.WriteLine("hit. please input your card using 10 for JQK and 1 for ace");
+            temp = Console.ReadLine();
+            hand.Append(Convert.ToInt16(temp));
+
+            Console.Clear();
+
+            if ((aceTotal - total) == 0 && temp == "1")
+            {
+                aceTotal += 10;
+            }
+
+            deck.Remove(Convert.ToInt16(temp));
+            total += Convert.ToInt16(temp);
+            aceTotal += Convert.ToInt16(temp);
+
+            Console.WriteLine("total (ace as 1) = " + total);
+
+            if (aceTotal != total)
+            {
+                Console.WriteLine("total (ace as 11) = " + aceTotal);
+            }
+
+            if ((total >= 20 && total < 22) | (aceTotal >= 20 && aceTotal < 22) | hand.Count() == 5) //thou shalt not hit on 20
+            {
+                Console.WriteLine("stick");
+                break;
+            }
+
+            if (total > 21)
+            {
+                Console.WriteLine("bust xD");
+                break;
+            }
+
+            Console.WriteLine(getBust(deck, total)*100 + "% chance of busting on hit");
+        }
+        Console.WriteLine("stick");
         game = false;
     }
     else
