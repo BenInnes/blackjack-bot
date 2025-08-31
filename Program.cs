@@ -106,7 +106,7 @@ while (play == "y")
 
             Console.Clear();
 
-            if (total >= 20 | aceTotal >= 20 | hand.Count() == 5) //thou shalt not hit on 20
+            if (total >= 20 | aceTotal == 21 | hand.Count() == 5) //thou shalt not hit on 20
             {
                 Console.WriteLine("stick");
                 break;
@@ -138,7 +138,7 @@ while (play == "y")
                     Console.WriteLine("total (ace as 11) = " + aceTotal);
                 }
 
-                if ((total >= 20 && total < 22) | (aceTotal >= 20 && aceTotal < 22) | hand.Count() == 5) //thou shalt not hit on 20
+                if ((total >= 20 && total < 22) | aceTotal == 21 | hand.Count() == 5) //thou shalt not hit on 20
                 {
                     Console.WriteLine("stick");
                     break;
